@@ -12,6 +12,12 @@ async function onDauResult(): Promise<void> {
 
 export async function electronMain(): Promise<void> {
   log.info(LogTitle, 'electronMain called')
+
+  // 防止渲染进程（HTML title标签）覆盖窗口标题
+  mainWindow.on('page-title-updated', (e) => {
+    e.preventDefault()
+  })
+
   mainWindow.setTitle(`V2EX DAU Refresh v${version}`)
 
   ipcMain.on('onDauResult', onDauResult)
