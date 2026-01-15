@@ -18,6 +18,7 @@ nsis:
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
+  runAfterFinish: false
   deleteAppDataOnUninstall: false
   oneClick: false
   allowToChangeInstallationDirectory: true
