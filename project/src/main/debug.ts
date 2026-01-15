@@ -1,7 +1,7 @@
 import * as inspector from 'inspector'
 
 // 是否调试状态
-function _isInDebugMode() {
+function _isInDebugMode(): boolean {
   return inspector.url() !== undefined
 }
 
