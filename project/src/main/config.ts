@@ -8,13 +8,19 @@ const LogTitle = '[init]'
 
 export const config = {
   dau_threshold: 20,
-  refresh_interval: 60 * 1000
+  refresh_interval: 60 * 1000,
+  show_mainwindow: true
+}
+
+export async function _saveConfig(j): Promise<void> {
+  const appDataPath = app.getPath('userData')
+  fse.writeFileSync(path.join(appDataPath, 'config.json'), JSON.stringify(j, null, 2), {
+    encoding: 'utf-8'
+  })
 }
 
 export async function initConfig(): Promise<void> {
-  log.info(LogTitle, 'initConfig called')
-
-  log.info(LogTitle, 'electronMain entry: ', isDev)
+  log.info(LogTitle, 'initConfig entry: ', isDev)
   const appRootPath = app.getAppPath()
   const appDataPath = app.getPath('userData')
   log.info(LogTitle, 'appRootPath: ', appRootPath)
@@ -27,9 +33,11 @@ export async function initConfig(): Promise<void> {
     const j = JSON.parse(configContent)
     j.dau_threshold && (config.dau_threshold = j.dau_threshold)
     j.refresh_interval && (config.refresh_interval = j.refresh_interval)
+    j.show_mainwindow && (config.show_mainwindow = j.show_mainwindow)
     log.info(LogTitle, 'Loaded config: ', config)
   } catch (error) {
     log.warn(LogTitle, 'initConfig error: ', error)
+    await _saveConfig(config)
   }
 
   // 处理vue的配置：读取，保存
@@ -38,8 +46,6 @@ export async function initConfig(): Promise<void> {
   })
   ipcMain.handle('vueSaveConfig', async (j) => {
     log.info(LogTitle, 'vueSaveConfig called: ', j)
-    fse.writeFileSync(path.join(appDataPath, 'config.json'), JSON.stringify(j, null, 2), {
-      encoding: 'utf-8'
-    })
+    await _saveConfig(j)
   })
 }
