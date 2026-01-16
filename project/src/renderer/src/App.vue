@@ -6,7 +6,7 @@
         <el-input v-model="threshold" type="number" :min="0" :max="999999" style="width: 140px" />
       </div>
       <div class="config-row">
-        <span>刷新间隔</span>
+        <span>刷新间隔(s)</span>
         <el-input v-model="interval" type="number" :min="30" :max="999999" style="width: 140px" />
       </div>
       <div class="config-row">
@@ -21,15 +21,15 @@
     <div class="section-content">
       <div class="config-row">
         <span>V2EX登录状态</span>
-        <div>2026.1.15 12:13:13</div>
+        <div>2026.x.x 11:12:13</div>
       </div>
       <div>
-        <el-button>后台</el-button>
-        <el-button>检查</el-button>
+        <el-button @click="onV2exBackground">后台</el-button>
+        <el-button disabled @click="onV2exCheck">检查</el-button>
       </div>
     </div>
     <div class="section-content history-section">
-      <el-input v-model="textarea" type="textarea" placeholder="历史记录" />
+      <el-input v-model="textarea" type="textarea" readonly />
     </div>
   </div>
 </template>
@@ -81,11 +81,21 @@ const readConfig = async (tip: boolean = true): Promise<void> => {
   }
 }
 
+const onV2exBackground = async (): Promise<void> => {
+  console.log('onV2exBackground called')
+  await window.api.v2exBackground()
+}
+
+const onV2exCheck = async (): Promise<void> => {
+  console.log('onV2exCheck called')
+  await window.api.v2exCheck()
+}
+
 onMounted(async () => {
   await readConfig(false)
 
   // 模拟耗时操作
-  await sleep(2000)
+  await sleep(200)
 
   // 隐藏 loading，显示 app
   const loadingOverlay = document.getElementById('loading-overlay')
@@ -142,6 +152,7 @@ onMounted(async () => {
 .history-section :deep(.el-textarea__inner) {
   height: 100%;
   resize: none;
+  background-color: #f5f5f5;
 }
 
 .config-row {

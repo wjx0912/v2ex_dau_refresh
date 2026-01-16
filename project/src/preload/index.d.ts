@@ -7,6 +7,8 @@ interface API {
     show_mainwindow: boolean
   }>
   saveConfig: (config) => Promise<void>
+  v2exBackground: () => Promise<void>
+  v2exCheck: () => Promise<void>
 }
 
 declare global {

@@ -6,8 +6,16 @@ import { isDev } from './debug'
 
 const LogTitle = '[init]'
 
-async function onDauResult(): Promise<void> {
+async function onV2exDauResult(): Promise<void> {
   log.info(LogTitle, 'onDauResult called')
+}
+
+async function onV2exBackground(): Promise<void> {
+  log.info(LogTitle, 'onV2exBackground called')
+}
+
+async function onV2exCheck(): Promise<void> {
+  log.info(LogTitle, 'onV2exCheck called')
 }
 
 export async function electronMain(): Promise<void> {
@@ -17,10 +25,11 @@ export async function electronMain(): Promise<void> {
   mainWindow.on('page-title-updated', (e) => {
     e.preventDefault()
   })
-
   mainWindow.setTitle(`V2EX DAU Refresh v${version}`)
 
-  ipcMain.on('onDauResult', onDauResult)
+  ipcMain.on('onV2exDauResult', onV2exDauResult)
+  ipcMain.on('onV2exBackground', onV2exBackground)
+  ipcMain.on('onV2exCheck', onV2exCheck)
 
   // 程序退出时，发消息给前端执行退出逻辑
   if (!isDev) {

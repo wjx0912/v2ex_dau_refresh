@@ -4,7 +4,9 @@ import { electronAPI } from '@electron-toolkit/preload'
 // Custom APIs for renderer
 const api = {
   readConfig: () => ipcRenderer.invoke('ReadConfig'),
-  saveConfig: (config) => ipcRenderer.invoke('SaveConfig', config)
+  saveConfig: (config) => ipcRenderer.invoke('SaveConfig', config),
+  v2exBackground: () => ipcRenderer.invoke('V2exBackground'),
+  v2exCheck: () => ipcRenderer.invoke('V2exCheck')
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
