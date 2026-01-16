@@ -88,4 +88,8 @@ const autoStart = ref(false)
   align-items: center;
   gap: 10px;
 }
+
+.config-row span {
+  width: 100px;
+}
 </style>
