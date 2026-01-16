@@ -20,7 +20,7 @@ export async function v2exInit(): Promise<void> {
     height: 600,
     show: false,
     webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
+      preload: join(__dirname, '../preload/inject.js'),
       nodeIntegration: false,
       contextIsolation: true
     }
