@@ -22,6 +22,7 @@ async function createWindow(): Promise<BrowserWindow> {
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
+      preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     }
   })

@@ -42,6 +42,10 @@ const autoStart = ref(false)
 const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms))
 
 onMounted(async () => {
+  // 读取配置
+  const result = await window.api.readConfig()
+  console.log('ReadConfig result:', result)
+
   // 模拟耗时操作
   await sleep(2000)
 
