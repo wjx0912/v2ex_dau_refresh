@@ -14,6 +14,10 @@ async function createWindow(): Promise<BrowserWindow> {
   const mainWindow = new BrowserWindow({
     width: 900,
     height: 1200,
+    minWidth: 600,
+    minHeight: 800,
+    maxWidth: 1200,
+    maxHeight: 1200,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),

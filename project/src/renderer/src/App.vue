@@ -1,9 +1,18 @@
 <template>
   <div class="main-container">
     <div class="section-content">
-      <div>活跃度阈值（数值输入框）</div>
-      <div>刷新间隔（数值输入框）</div>
-      <div>开机启动（checkbox）</div>
+      <div class="config-row">
+        <span>活跃度阈值</span>
+        <el-input v-model="threshold" type="number" :min="0" :max="999999" style="width: 140px" />
+      </div>
+      <div class="config-row">
+        <span>刷新间隔</span>
+        <el-input v-model="interval" type="number" :min="30" :max="999999" style="width: 140px" />
+      </div>
+      <div class="config-row">
+        <span>开机启动</span>
+        <el-checkbox v-model="autoStart" />
+      </div>
       <div>
         <el-button type="primary">保存</el-button>
         <el-button>取消</el-button>
@@ -26,6 +35,9 @@
 import { ref } from 'vue'
 
 const textarea = ref('')
+const threshold = ref(50)
+const interval = ref(120)
+const autoStart = ref(false)
 // const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
 </script>
 
@@ -69,5 +81,11 @@ const textarea = ref('')
 .history-section :deep(.el-textarea__inner) {
   height: 100%;
   resize: none;
+}
+
+.config-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 </style>
