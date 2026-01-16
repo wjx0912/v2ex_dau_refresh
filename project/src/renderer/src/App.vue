@@ -21,8 +21,8 @@
     <div class="section-content">
       <div>V2EX登录状态： 2026.1.15 12:13:13</div>
       <div>
-        <el-button type="primary">登录</el-button>
-        <el-button>登出</el-button>
+        <el-button type="primary">后台</el-button>
+        <el-button>检查</el-button>
       </div>
     </div>
     <div class="section-content history-section">
@@ -43,7 +43,7 @@ const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout
 
 onMounted(async () => {
   // 模拟耗时操作
-  await sleep(8000)
+  await sleep(2000)
 
   // 隐藏 loading，显示 app
   const loadingOverlay = document.getElementById('loading-overlay')
