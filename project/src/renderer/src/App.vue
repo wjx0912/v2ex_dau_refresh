@@ -1,9 +1,4 @@
-<script setup lang="ts">
-const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
-</script>
-
 <template>
-  <img alt="logo" class="logo" src="./assets/electron.svg" />
   <div class="creator">Powered by electron-vite</div>
   <el-input placeholder="Basic usage" />
   <div class="text">
@@ -22,3 +17,7 @@ const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+</script>
