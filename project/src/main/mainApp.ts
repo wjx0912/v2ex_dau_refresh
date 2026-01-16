@@ -3,7 +3,7 @@ import { app, ipcMain, dialog } from 'electron'
 import { mainWindow } from './index'
 import { version } from '../../package.json'
 import { isDev } from './debug'
-import { onV2exBackground, onV2exCheck, onV2exDauResult, onV2exLoginStatus } from './v2ex'
+import { v2exInit, onV2exBackground, onV2exCheck, onV2exDauResult, onV2exLoginStatus } from './v2ex'
 
 const LogTitle = '[mainApp]'
 
@@ -20,6 +20,7 @@ export async function electronMain(): Promise<void> {
   ipcMain.on('V2exDauResult', onV2exCheck)
   ipcMain.on('V2exDauResult', onV2exDauResult)
   ipcMain.on('V2exLoginStatus', onV2exLoginStatus)
+  await v2exInit()
 
   // 程序退出时，发消息给前端执行退出逻辑
   if (!isDev) {
