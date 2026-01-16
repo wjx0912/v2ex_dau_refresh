@@ -19,7 +19,10 @@
       </div>
     </div>
     <div class="section-content">
-      <div>V2EX登录状态： 2026.1.15 12:13:13</div>
+      <div class="config-row">
+        <span>V2EX登录状态</span>
+        <div>2026.1.15 12:13:13</div>
+      </div>
       <div>
         <el-button>后台</el-button>
         <el-button>检查</el-button>
@@ -45,9 +48,9 @@ const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout
 const saveConfig = async (): Promise<void> => {
   // 保存配置
   const config = {
-    dau_threshold: threshold.value,
-    refresh_interval: interval.value,
-    show_mainwindow: autoStart.value
+    dau_threshold: Number(threshold.value),
+    refresh_interval: Number(interval.value),
+    show_mainwindow: autoStart.value as boolean
   }
   console.log('SaveConfig config:', config)
   await window.api.saveConfig(config)
@@ -64,9 +67,9 @@ const readConfig = async (tip: boolean = true): Promise<void> => {
   // 读取配置
   const result = await window.api.readConfig()
   console.log('ReadConfig result:', result)
-  threshold.value = result.config.dau_threshold
-  interval.value = result.config.refresh_interval
-  autoStart.value = result.config.show_mainwindow
+  threshold.value = result.dau_threshold
+  interval.value = result.refresh_interval
+  autoStart.value = result.show_mainwindow
 
   if (tip) {
     ElMessage({
@@ -148,6 +151,6 @@ onMounted(async () => {
 }
 
 .config-row span {
-  width: 100px;
+  width: 150px;
 }
 </style>

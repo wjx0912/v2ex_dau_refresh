@@ -42,10 +42,10 @@ export async function initConfig(): Promise<void> {
 
   // 处理vue的配置：读取，保存
   ipcMain.handle('ReadConfig', async () => {
-    return { config, isDev }
+    return config
   })
   ipcMain.handle('SaveConfig', async (e, j) => {
-    log.info(LogTitle, 'SaveConfig called: ', j)
+    log.info(LogTitle, 'SaveConfig called: ', e, j)
     await _saveConfig(j)
   })
 }
