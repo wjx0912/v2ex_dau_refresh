@@ -32,14 +32,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-// import { sleep } from './util'
+import { ref, onMounted } from 'vue'
 
 const textarea = ref('')
 const threshold = ref(50)
 const interval = ref(120)
 const autoStart = ref(false)
-// await sleep(3000)
+
+const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms))
+
+onMounted(async () => {
+  // 模拟耗时操作
+  await sleep(8000)
+
+  // 隐藏 loading，显示 app
+  const loadingOverlay = document.getElementById('loading-overlay')
+  const appElement = document.getElementById('app')
+
+  if (loadingOverlay) {
+    loadingOverlay.style.display = 'none'
+  }
+  if (appElement) {
+    appElement.style.display = 'block'
+  }
+})
+
 // const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
 </script>
 
