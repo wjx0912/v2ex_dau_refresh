@@ -33,11 +33,13 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+// import { sleep } from './util'
 
 const textarea = ref('')
 const threshold = ref(50)
 const interval = ref(120)
 const autoStart = ref(false)
+// await sleep(3000)
 // const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
 </script>
 
