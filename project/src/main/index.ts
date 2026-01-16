@@ -39,6 +39,7 @@ async function createWindow(): Promise<BrowserWindow> {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 
+  mainWindow.webContents.openDevTools({ mode: 'detach' })
   return mainWindow
 }
 
