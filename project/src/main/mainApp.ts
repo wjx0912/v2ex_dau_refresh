@@ -3,20 +3,9 @@ import { app, ipcMain, dialog } from 'electron'
 import { mainWindow } from './index'
 import { version } from '../../package.json'
 import { isDev } from './debug'
+import { onV2exBackground, onV2exCheck, onV2exDauResult, onV2exLoginStatus } from './v2ex'
 
-const LogTitle = '[init]'
-
-async function onV2exDauResult(): Promise<void> {
-  log.info(LogTitle, 'onDauResult called')
-}
-
-async function onV2exBackground(): Promise<void> {
-  log.info(LogTitle, 'onV2exBackground called')
-}
-
-async function onV2exCheck(): Promise<void> {
-  log.info(LogTitle, 'onV2exCheck called')
-}
+const LogTitle = '[mainApp]'
 
 export async function electronMain(): Promise<void> {
   log.info(LogTitle, 'electronMain called')
@@ -27,9 +16,10 @@ export async function electronMain(): Promise<void> {
   })
   mainWindow.setTitle(`V2EX DAU Refresh v${version}`)
 
-  ipcMain.on('onV2exDauResult', onV2exDauResult)
-  ipcMain.on('onV2exBackground', onV2exBackground)
-  ipcMain.on('onV2exCheck', onV2exCheck)
+  ipcMain.on('V2exBackground', onV2exBackground)
+  ipcMain.on('V2exDauResult', onV2exCheck)
+  ipcMain.on('V2exDauResult', onV2exDauResult)
+  ipcMain.on('V2exLoginStatus', onV2exLoginStatus)
 
   // 程序退出时，发消息给前端执行退出逻辑
   if (!isDev) {

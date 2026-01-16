@@ -4,7 +4,7 @@ import * as path from 'path'
 import * as fse from 'fs-extra'
 import { isDev } from './debug'
 
-const LogTitle = '[init]'
+const LogTitle = '[config]'
 
 export const config = {
   dau_threshold: 20,

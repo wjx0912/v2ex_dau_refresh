@@ -5,8 +5,10 @@ import { electronAPI } from '@electron-toolkit/preload'
 const api = {
   readConfig: () => ipcRenderer.invoke('ReadConfig'),
   saveConfig: (config) => ipcRenderer.invoke('SaveConfig', config),
-  v2exBackground: () => ipcRenderer.invoke('V2exBackground'),
-  v2exCheck: () => ipcRenderer.invoke('V2exCheck')
+  v2exBackground: () => ipcRenderer.send('V2exBackground'),
+  v2exCheck: () => ipcRenderer.send('V2exCheck'),
+  V2exDauResult: (result) => ipcRenderer.send('V2exDauResult', result),
+  V2exLoginStatus: (status) => ipcRenderer.send('V2exLoginStatus', status)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
