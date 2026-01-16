@@ -8,8 +8,8 @@ const LogTitle = '[init]'
 
 export const config = {
   dau_threshold: 20,
-  refresh_interval: 60 * 1000,
-  show_mainwindow: true
+  refresh_interval: 60,
+  show_mainwindow: false
 }
 
 export async function _saveConfig(j): Promise<void> {
@@ -44,7 +44,7 @@ export async function initConfig(): Promise<void> {
   ipcMain.handle('ReadConfig', async () => {
     return { config, isDev }
   })
-  ipcMain.handle('SaveConfig', async (j) => {
+  ipcMain.handle('SaveConfig', async (e, j) => {
     log.info(LogTitle, 'SaveConfig called: ', j)
     await _saveConfig(j)
   })

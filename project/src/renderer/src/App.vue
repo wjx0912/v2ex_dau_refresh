@@ -14,14 +14,14 @@
         <el-checkbox v-model="autoStart" />
       </div>
       <div>
-        <el-button type="primary">保存</el-button>
-        <el-button>取消</el-button>
+        <el-button @click="saveConfig">保存</el-button>
+        <el-button @click="readConfig">取消</el-button>
       </div>
     </div>
     <div class="section-content">
       <div>V2EX登录状态： 2026.1.15 12:13:13</div>
       <div>
-        <el-button type="primary">后台</el-button>
+        <el-button>后台</el-button>
         <el-button>检查</el-button>
       </div>
     </div>
@@ -33,6 +33,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { ElMessage } from 'element-plus'
 
 const textarea = ref('')
 const threshold = ref(50)
@@ -41,10 +42,44 @@ const autoStart = ref(false)
 
 const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms))
 
-onMounted(async () => {
+const saveConfig = async (): Promise<void> => {
+  // 保存配置
+  const config = {
+    dau_threshold: threshold.value,
+    refresh_interval: interval.value,
+    show_mainwindow: autoStart.value
+  }
+  console.log('SaveConfig config:', config)
+  await window.api.saveConfig(config)
+
+  ElMessage({
+    message: '保存配置成功',
+    type: 'success',
+    duration: 3000,
+    showClose: true
+  })
+}
+
+const readConfig = async (tip: boolean = true): Promise<void> => {
   // 读取配置
   const result = await window.api.readConfig()
   console.log('ReadConfig result:', result)
+  threshold.value = result.config.dau_threshold
+  interval.value = result.config.refresh_interval
+  autoStart.value = result.config.show_mainwindow
+
+  if (tip) {
+    ElMessage({
+      message: '重新读取配置成功',
+      type: 'success',
+      duration: 3000,
+      showClose: true
+    })
+  }
+}
+
+onMounted(async () => {
+  await readConfig(false)
 
   // 模拟耗时操作
   await sleep(2000)
