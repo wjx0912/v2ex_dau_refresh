@@ -1,6 +1,6 @@
 {
   "name": "v2ex_dau_refresh",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An v2ex dau refresh tool built with Electron + Vite + Vue3 + TypeScript.",
   "main": "./out/main/index.js",
   "author": "datadump",
