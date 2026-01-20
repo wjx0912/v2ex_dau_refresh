@@ -117,7 +117,7 @@ const onV2exRestart = async (): Promise<void> => {
 const lines = ref<string[]>([])
 
 // 最多 100 行
-const MAX_LINES = 5
+const MAX_LINES = 100
 
 // 展示给 el-input 的内容
 const displayText = computed(() => {
