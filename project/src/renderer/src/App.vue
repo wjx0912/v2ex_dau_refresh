@@ -127,7 +127,17 @@ const displayText = computed(() => {
 // 添加新行（外部调用）
 let debugcnt = 0
 function _add_line(_text: string): void {
-  const text = '[' + String(++debugcnt).padStart(6, '0') + ']  ' + _text
+  const formatter = new Intl.DateTimeFormat('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  })
+  const timeStr = formatter.format(new Date())
+  const text = '[' + String(++debugcnt).padStart(6, '0') + ']  [' + timeStr + ']  ' + _text
   lines.value.push(text)
 
   if (lines.value.length > MAX_LINES) {
@@ -158,9 +168,7 @@ onMounted(async () => {
   ipcRenderer.on('V2exDAUMessage', async (_event, message) => {
     // console.log('Received V2exDAUMessage message: ', message)
     const linestr =
-      '[' +
-      message.timeStr +
-      ']  用户名：' +
+      '用户名：' +
       message.username +
       '，当前活跃度：' +
       message.dau +

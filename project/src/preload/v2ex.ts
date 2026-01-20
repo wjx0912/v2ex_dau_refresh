@@ -51,27 +51,14 @@ export async function refresh(threshold: number, sleep: number): Promise<void> {
   )
 
   while (true) {
-    ///////////////////////////////////////////////
     const username = login_username
-    const formatter = new Intl.DateTimeFormat('zh-CN', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false
-    })
-    const timeStr = formatter.format(new Date())
-    //////////////////////////////////////////////
-
     const dau = await get_dau(login_username)
     if (dau <= threshold) {
       console.log(`活跃度排名已达到 ${dau}，停止刷新。`)
-      ipcRenderer.send('V2exDAUMessage', { timeStr, isFinish: true, dau, threshold, username })
+      ipcRenderer.send('V2exDAUMessage', { isFinish: true, dau, threshold, username })
       break
     } else {
-      ipcRenderer.send('V2exDAUMessage', { timeStr, isFinish: false, dau, threshold, username })
+      ipcRenderer.send('V2exDAUMessage', { isFinish: false, dau, threshold, username })
       console.log(
         formatDate(new Date()) +
           `：当前用户 ${login_username} 活跃度为 ${dau}，未达到阈值 ${threshold}，休眠${sleep}秒继续刷新...`

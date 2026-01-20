@@ -86,28 +86,18 @@ export async function onV2exDauResult(): Promise<void> {
 export async function onV2exLoginStatus(_e, data: number): Promise<void> {
   log.info(LogTitle, 'onV2exLoginStatus called with status:', data)
 
-  const formatter = new Intl.DateTimeFormat('zh-CN', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false
-  })
-
   // 0失败，1签到成功，2已签到，3未登录，4加载网页超时
-  let msgStr = formatter.format(new Date()) + '  '
+  let msgStr = ''
   if (data === 1) {
-    msgStr += '签到成功'
+    msgStr = '签到成功'
   } else if (data === 2) {
-    msgStr += '已签到'
+    msgStr = '已签到'
   } else if (data === 3) {
-    msgStr += '未登录'
+    msgStr = '未登录'
   } else if (data === 4) {
-    msgStr += '加载网页超时'
+    msgStr = '加载网页超时'
   } else {
-    msgStr += '错误码：' + data + ', 时间：'
+    msgStr = '错误码：' + data + ', 时间：'
   }
   if (mainWindow) {
     mainWindow.webContents.send('V2exStatusMessage', msgStr)
