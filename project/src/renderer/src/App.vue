@@ -117,19 +117,21 @@ const onV2exRestart = async (): Promise<void> => {
 const lines = ref<string[]>([])
 
 // 最多 100 行
-const MAX_LINES = 100
+const MAX_LINES = 5
 
 // 展示给 el-input 的内容
 const displayText = computed(() => {
-  return lines.value.join('\n')
+  return lines.value.slice().reverse().join('\n')
 })
 
 // 添加新行（外部调用）
-function _add_line(text: string): void {
-  lines.value.unshift(text)
+let debugcnt = 0
+function _add_line(_text: string): void {
+  const text = '[' + String(++debugcnt).padStart(6, '0') + ']  ' + _text
+  lines.value.push(text)
 
   if (lines.value.length > MAX_LINES) {
-    lines.value.length = MAX_LINES
+    lines.value.shift()
   }
 
   // 等 DOM 更新后，把滚动条拉回顶部
@@ -156,13 +158,14 @@ onMounted(async () => {
   ipcRenderer.on('V2exDAUMessage', async (_event, message) => {
     // console.log('Received V2exDAUMessage message: ', message)
     const linestr =
+      '[' +
       message.timeStr +
-      '  当前活跃度：' +
+      ']  用户名：' +
+      message.username +
+      '，当前活跃度：' +
       message.dau +
       '，是否停止：' +
-      message.isFinish +
-      ', 用户名：' +
-      message.username
+      message.isFinish
     for (let i = 0; i < 1; i++) {
       _add_line(linestr)
     }
