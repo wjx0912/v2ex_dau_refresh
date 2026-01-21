@@ -10,7 +10,7 @@ console.log('This is inject.ts auto_sign: ', !!auto_sign)
 console.log('This is inject.ts refresh: ', !!refresh)
 
 const injectInit = async (flag: boolean): Promise<void> => {
-  console.log('injectInit（0失败，1签到成功，2已签到，3未登录，4加载网页超时），参数：', flag)
+  console.log('injectInit（1签到成功，2已签到，3未登录，4加载网页超时，其它是错误码），参数：', flag)
   const config = await api.readConfig()
   console.log('injectInit config:', config)
   if (!flag) {

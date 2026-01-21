@@ -85,7 +85,7 @@ export async function onV2exDauResult(): Promise<void> {
 export async function onV2exLoginStatus(_e, data: number): Promise<void> {
   log.info(LogTitle, 'onV2exLoginStatus called with status:', data)
 
-  // 0失败，1签到成功，2已签到，3未登录，4加载网页超时
+  // 1签到成功，2已签到，3未登录，4加载网页超时，其它是错误码
   let msgStr = ''
   if (data === 1) {
     msgStr = '签到成功'
@@ -96,7 +96,7 @@ export async function onV2exLoginStatus(_e, data: number): Promise<void> {
   } else if (data === 4) {
     msgStr = '加载网页超时，请重启后台'
   } else {
-    msgStr = '错误码：' + data + ', 时间：'
+    msgStr = '错误码：' + data
   }
   if (mainWindow) {
     mainWindow.webContents.send('V2exStatusMessage', msgStr)

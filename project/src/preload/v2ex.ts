@@ -90,7 +90,7 @@ function extractMissionURL(str: string): { url: string; onceValue: string } | nu
 }
 
 let login_username = ''
-// 0是失败，1是签到成功，2是已签到，3是未登录
+// 1签到成功，2已签到，3未登录，4加载网页超时，其它是错误码
 export async function auto_sign(): Promise<number> {
   try {
     console.log('auto_sign() 开始自动签到')
@@ -112,6 +112,8 @@ export async function auto_sign(): Promise<number> {
         if (html) {
           console.log('签到成功')
           return 1
+        } else {
+          return 101
         }
       } else {
         if (html.includes('member-activity-bar') && html.includes('/member/')) {
@@ -122,11 +124,14 @@ export async function auto_sign(): Promise<number> {
           return 3
         }
       }
+    } else {
+      return 102
     }
   } catch (error) {
     console.error('Error auto sign:', error)
+    return 103
   }
 
   console.log('签到失败')
-  return 0
+  return 199
 }
