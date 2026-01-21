@@ -106,7 +106,7 @@ export async function onV2exLoginStatus(_e, data: number): Promise<void> {
   if (data === 1) {
     msgStr = '签到成功'
   } else if (data === 2) {
-    msgStr = '已签到'
+    msgStr = '已签到，无需重复'
   } else if (data === 3) {
     msgStr = '未登录'
   } else if (data === 4) {
