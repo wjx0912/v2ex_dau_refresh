@@ -1,5 +1,5 @@
 import log from 'electron-log'
-import { BrowserWindow } from 'electron'
+import { app, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { isDev, isDevEx } from './debug'
 import { mainWindow } from './index'
@@ -7,6 +7,7 @@ import { mainWindow } from './index'
 const LogTitle = '[v2ex]'
 
 let v2exBrowserWindow: BrowserWindow | null = null
+let isAppQuitting = false
 
 export async function v2exUninit(): Promise<void> {
   log.info(LogTitle, 'v2exUninit called')
@@ -18,6 +19,11 @@ export async function v2exUninit(): Promise<void> {
 
 export async function v2exInit(): Promise<void> {
   log.info(LogTitle, 'v2exInit called')
+  // before-quit放在app.whenReady最佳，先凑合放这里
+  app.on('before-quit', () => {
+    isAppQuitting = true
+  })
+
   v2exBrowserWindow = new BrowserWindow({
     x: 30,
     y: 30,
@@ -44,6 +50,16 @@ export async function v2exInit(): Promise<void> {
   // 防止渲染进程（HTML title标签）覆盖窗口标题
   v2exBrowserWindow.on('page-title-updated', (e) => {
     e.preventDefault()
+  })
+  v2exBrowserWindow.on('close', (event) => {
+    if (isAppQuitting) {
+      log.info(LogTitle, 'app is quitting, allow close')
+      return
+    }
+
+    event.preventDefault()
+    log.info(LogTitle, 'close intercepted, hide window')
+    v2exBrowserWindow?.hide()
   })
   v2exBrowserWindow.setTitle(`window create at ${windowTitle}`)
   //   v2exBrowserWindow.webContents.on('will-navigate', (event, url) => {
