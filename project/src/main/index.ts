@@ -3,7 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { isDev, isDevEx } from './debug'
-import { initAppData, initLog } from './initAppdata'
+import { initAppData, initLog } from './initApp'
 import { initConfig } from './config'
 import { electronMain } from './mainApp'
 

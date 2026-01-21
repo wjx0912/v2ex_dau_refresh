@@ -1,5 +1,5 @@
 import log from 'electron-log'
-import { app, ipcMain, dialog, Menu } from 'electron'
+import { app, ipcMain, dialog } from 'electron'
 import { mainWindow } from './index'
 import { version } from '../../package.json'
 import { isDev } from './debug'
@@ -13,6 +13,7 @@ import {
   v2exUninit,
   onV2exRestart
 } from './v2ex'
+import { createTrayIcon } from './initApp'
 
 const LogTitle = '[mainApp]'
 
@@ -31,7 +32,7 @@ export async function electronMain(): Promise<void> {
   ipcMain.on('V2exLoginStatus', onV2exLoginStatus)
   ipcMain.on('V2exDAUMessage', onV2exDAUStatus)
   ipcMain.on('V2exRestart', onV2exRestart)
-  Menu.setApplicationMenu(null)
+  //   Menu.setApplicationMenu(null)
 
   // 程序退出时，发消息给前端执行退出逻辑
   if (!isDev) {
@@ -52,6 +53,7 @@ export async function electronMain(): Promise<void> {
     })
   }
 
+  await createTrayIcon()
   await v2exInit()
   setInterval(
     async () => {

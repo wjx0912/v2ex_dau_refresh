@@ -32,3 +32,7 @@ export async function initLog(): Promise<void> {
   log.transports.console.level = 'debug'
   log.initialize()
 }
+
+export async function createTrayIcon(): Promise<void> {
+  // TODO
+}

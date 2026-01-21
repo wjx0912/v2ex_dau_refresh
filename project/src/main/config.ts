@@ -4,13 +4,14 @@ import * as path from 'path'
 import * as fse from 'fs-extra'
 import { isDev, isDevEx } from './debug'
 import { v2exInit, v2exUninit } from './v2ex'
+import { startAtStartup } from './startup'
 
 const LogTitle = '[config]'
 
 export const config = {
   dau_threshold: 20,
   refresh_interval: 60,
-  show_mainwindow: false
+  auto_startup: false
 }
 
 export async function _saveConfig(data: typeof config): Promise<void> {
@@ -32,7 +33,7 @@ export async function initConfig(): Promise<void> {
     const j = await fse.readJson(configFilePath)
     if (j.dau_threshold !== undefined) config.dau_threshold = j.dau_threshold
     if (j.refresh_interval !== undefined) config.refresh_interval = j.refresh_interval
-    if (j.show_mainwindow !== undefined) config.show_mainwindow = j.show_mainwindow
+    if (j.auto_startup !== undefined) config.auto_startup = j.auto_startup
     if (!isDev && !isDevEx()) {
       if (config.refresh_interval < 30) {
         config.refresh_interval = 30
@@ -56,6 +57,7 @@ export async function initConfig(): Promise<void> {
         config.refresh_interval = 30
       }
     }
+    await startAtStartup(!!config.auto_startup)
     await _saveConfig(config)
     await v2exUninit()
     await v2exInit()

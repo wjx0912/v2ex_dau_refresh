@@ -55,7 +55,7 @@ const saveConfig = async (): Promise<void> => {
   const config = {
     dau_threshold: Number(threshold.value),
     refresh_interval: Number(interval.value),
-    show_mainwindow: autoStart.value as boolean
+    auto_startup: autoStart.value as boolean
   }
   console.log('SaveConfig config:', config)
   await window.api.saveConfig(config)
@@ -74,7 +74,7 @@ const readConfig = async (tip: boolean = true): Promise<void> => {
   console.log('ReadConfig result:', result)
   threshold.value = result.dau_threshold
   interval.value = result.refresh_interval
-  autoStart.value = result.show_mainwindow
+  autoStart.value = result.auto_startup
 
   if (tip) {
     ElMessage({
@@ -116,8 +116,8 @@ const onV2exRestart = async (): Promise<void> => {
 // 每一行一条，最新在最前
 const lines = ref<string[]>([])
 
-// 最多 100 行
-const MAX_LINES = 100
+// 最多 200 行
+const MAX_LINES = 200
 
 // 展示给 el-input 的内容
 const displayText = computed(() => {

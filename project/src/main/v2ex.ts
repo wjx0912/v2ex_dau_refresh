@@ -24,7 +24,6 @@ export async function v2exInit(): Promise<void> {
     width: 1800,
     height: 900,
     show: isDev || isDevEx(),
-    autoHideMenuBar: true,
     webPreferences: {
       preload: join(__dirname, '../preload/inject.js'),
       sandbox: false
@@ -95,7 +94,7 @@ export async function onV2exLoginStatus(_e, data: number): Promise<void> {
   } else if (data === 3) {
     msgStr = '未登录'
   } else if (data === 4) {
-    msgStr = '加载网页超时'
+    msgStr = '加载网页超时，请重启后台'
   } else {
     msgStr = '错误码：' + data + ', 时间：'
   }
