@@ -1,5 +1,4 @@
 import { app, Tray, Menu, nativeImage, dialog } from 'electron'
-import { join } from 'path'
 import icon from '../../resources/icon.png?asset'
 import { mainWindow } from './index'
 

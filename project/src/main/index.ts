@@ -21,6 +21,7 @@ async function createWindow(): Promise<BrowserWindow> {
     maxHeight: 1200,
     show: false,
     autoHideMenuBar: true,
+    skipTaskbar: true, // 不在任务栏显示
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
