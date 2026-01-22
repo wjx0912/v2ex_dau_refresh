@@ -1,5 +1,5 @@
 import log from 'electron-log'
-import { app, ipcMain, dialog } from 'electron'
+import { ipcMain } from 'electron'
 import { mainWindow } from './index'
 import { version } from '../../package.json'
 import { isDev } from './debug'
@@ -38,18 +38,19 @@ export async function electronMain(): Promise<void> {
   if (!isDev) {
     mainWindow.on('close', (e) => {
       e.preventDefault()
-      dialog
-        .showMessageBox(mainWindow, {
-          type: 'info',
-          title: '退出程序', // 可能不显示
-          message: '确定要退出程序吗？',
-          buttons: ['确定', '取消']
-        })
-        .then((it) => {
-          if (it.response === 0) {
-            app.exit()
-          }
-        })
+      mainWindow.hide()
+      //   dialog
+      //     .showMessageBox(mainWindow, {
+      //       type: 'info',
+      //       title: '退出程序', // 可能不显示
+      //       message: '确定要退出程序吗？',
+      //       buttons: ['确定', '取消']
+      //     })
+      //     .then((it) => {
+      //       if (it.response === 0) {
+      //         app.exit()
+      //       }
+      //     })
     })
   }
 
