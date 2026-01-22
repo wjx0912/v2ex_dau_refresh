@@ -6,6 +6,7 @@ import { isDev, isDevEx } from './debug'
 import { initAppData, initLog } from './initApp'
 import { initConfig } from './config'
 import { electronMain } from './mainApp'
+import { createTray, setupTrayListeners, destroyTray } from './tray'
 
 export let mainWindow: BrowserWindow
 
@@ -29,6 +30,12 @@ async function createWindow(): Promise<BrowserWindow> {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
+  })
+
+  mainWindow.on('close', (event) => {
+    // 点击关闭按钮时隐藏窗口而不是退出
+    event.preventDefault()
+    mainWindow.hide()
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -78,12 +85,17 @@ app.whenReady().then(async () => {
   await initConfig()
   mainWindow = await createWindow() // 以上执行完了后再创建窗口，因为里面有些初始化要invoke主进程函数
   await electronMain()
+
+  // 创建托盘
+  createTray()
+  setupTrayListeners()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
+  destroyTray()
   if (process.platform !== 'darwin') {
     app.quit()
   }
