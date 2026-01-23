@@ -3,7 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { isDev, isDevEx } from './debug'
-import { initAppData, initLog } from './initApp'
+import { checkRunOnce, initAppData, initLog } from './initApp'
 import { initConfig } from './config'
 import { electronMain } from './mainApp'
 import { createTray, setupTrayListeners, destroyTray } from './tray'
@@ -81,6 +81,7 @@ app.whenReady().then(async () => {
     if (BrowserWindow.getAllWindows().length === 0) await createWindow()
   })
 
+  await checkRunOnce()
   await initAppData()
   await initLog()
   await initConfig()
