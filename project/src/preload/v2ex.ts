@@ -53,7 +53,7 @@ export async function refresh(threshold: number, sleep: number): Promise<void> {
   while (true) {
     const username = login_username
     const dau = await get_dau(login_username)
-    if (dau <= threshold) {
+    if (dau && dau > 0 && dau <= threshold) {
       console.log(`活跃度排名已达到 ${dau}，停止刷新。`)
       ipcRenderer.send('V2exDAUMessage', { isFinish: true, dau, threshold, username })
       break
