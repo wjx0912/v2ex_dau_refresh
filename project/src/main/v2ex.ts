@@ -24,6 +24,9 @@ export async function v2exInit(): Promise<void> {
     isAppQuitting = true
   })
 
+  // 禁用 Electron 的安全警告（因为我们需要加载外部网站并注入脚本）
+  process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
+
   v2exBrowserWindow = new BrowserWindow({
     x: 30,
     y: 30,
@@ -32,7 +35,11 @@ export async function v2exInit(): Promise<void> {
     show: isDev || isDevEx(),
     webPreferences: {
       preload: join(__dirname, '../preload/inject.js'),
-      sandbox: false
+      sandbox: false,
+      contextIsolation: false,
+      nodeIntegration: false,
+      webSecurity: true,
+      allowRunningInsecureContent: false
     }
   })
 

@@ -62,6 +62,9 @@ async function createWindow(): Promise<BrowserWindow> {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
+  // 禁用 Electron 的安全警告（因为应用需要加载外部网站并注入脚本）
+  process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
+
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
