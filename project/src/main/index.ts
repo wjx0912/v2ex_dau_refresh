@@ -9,6 +9,7 @@ import { electronMain } from './mainApp'
 import { createTray, setupTrayListeners, destroyTray } from './tray'
 
 export let mainWindow: BrowserWindow
+initAppData()
 
 async function createWindow(): Promise<BrowserWindow> {
   // Create the browser window.
@@ -85,7 +86,6 @@ app.whenReady().then(async () => {
   })
 
   await checkRunOnce()
-  await initAppData()
   await initLog()
   await initConfig()
   mainWindow = await createWindow() // 以上执行完了后再创建窗口，因为里面有些初始化要invoke主进程函数

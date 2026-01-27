@@ -23,7 +23,7 @@ export async function checkRunOnce(): Promise<void> {
 }
 
 // 设置app名称和appdata
-export async function initAppData(): Promise<void> {
+export function initAppData(): void {
   app.setPath('userData', path.join(app.getPath('appData'), _appName))
   const appRootPath = app.getAppPath()
   const appDataPath = app.getPath('userData')
